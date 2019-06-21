@@ -26,6 +26,21 @@ $ docker run -v $(pwd):/src --rm witekio/clang-format-checker                   
 -  : arg(new Other(std::string("string"), 4))
 ```
 
+## CI Integration
+
+### BitBucket Pipeline
+
+The following Pipeline step will check for any style error in the `src` folder, and return an error if problems are found
+```
+pipelines:
+  default:
+    - step:
+        name: Check code format
+        image: witekio/clang-format-checker
+        script:
+          - run-clang-format.py -r src
+```
+
 ## Changing the style
 
 The style used by `clang-format` can be defined by providing a `.clang-format` file in your source folder. For more information, see [clang-format style options](https://clang.llvm.org/docs/ClangFormatStyleOptions.html)
