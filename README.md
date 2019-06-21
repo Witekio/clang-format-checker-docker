@@ -23,7 +23,7 @@ $ docker run -v $(pwd):/src --rm witekio/clang-format-checker                   
 -MyClass::MyClass() 
 +MyClass::MyClass()
 -    : arg(new Other(std::string("string"), 4))
--  : arg(new Other(std::string("string"), 4))
++  : arg(new Other(std::string("string"), 4))
 ```
 
 ## CI Integration
