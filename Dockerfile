@@ -8,5 +8,5 @@ ADD run-clang-format/run-clang-format.py /usr/bin
 
 RUN mkdir /src
 WORKDIR /src
-ENTRYPOINT ["run-clang-format.py", "-r", "."]
+ENTRYPOINT ["run-clang-format.py"]
 
