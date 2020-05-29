@@ -4,13 +4,44 @@ Docker image verifying the code format with clang-format
 
 ## Getting Started
 
-The following command will mount the current working directory folder to the `src` working directory, and recursively check the format of source files in `src` and  `include` directories, as well as `file.cpp`
+The simplest use of this image is to check source files in the current folder, after mounting it with `-v`. The example below checks all files in the current folder (`.`), and recursively (`-r`):
 
-`docker run --rm -v $(pwd):/src witekio/clang-format-checker -r src includes file.cpp`
+`docker run --rm -v $(pwd):/src witekio/clang-format-checker -r .`
+
+Arguments after the image name are passed directly to `run-clang-format.py`. You can target multiple folders and files. The example below will recursively analyze files in the `src` and `includes` folder, as well as the file `main.cpp`.
+
+`docker run --rm -v $(pwd):/src witekio/clang-format-checker -r src includes main.cpp`
+
+## CI Integration
+
+### BitBucket Pipeline
+
+The following BitBucket Pipeline step will check for any style error in the `src` folder, and return an error if problems are found
+
+```bitbucket-pipelines.yml
+pipelines:
+  default:
+    - step:
+        name: Check code format
+        image: witekio/clang-format-checker
+        script:
+          - run-clang-format.py -r src
+```
+
+### GitLab CI Pipeline
+
+The following GitLab CI step will check for any style error in the `src` folder, and return an error if problems are found
+
+```.gitlab-ci.yml
+check-format:
+  image: witekio/clang-format-checker
+  script:
+    - run-clang-format.py -r src
+```
 
 ## Output
 
-The return code of the `docker run` will be
+The return code of the `docker run` will be:
 * `non-zero` if any formatting errors are found, and printed in the standard output.
 * `0` if no issue was found
 
@@ -32,6 +63,8 @@ MyClass::MyClass()
 The style used by `clang-format` can be defined by providing a `.clang-format` file in your source folder. For more information, see [clang-format style options](https://clang.llvm.org/docs/ClangFormatStyleOptions.html)
 
 ## Supported arguments
+
+This image relies on `run-clang-format`. For more information, you can check [`run-clang-format` official repository](https://github.com/Sarcasm/run-clang-format).
 
 Folders and files can be excluded with `--exclude`
 ```
@@ -71,22 +104,13 @@ optional arguments:
                         exclude paths matching the given glob-like pattern(s)
                         from recursive search
 ```
-For more information, you can check [`run-clang-format` official repository](https://github.com/Sarcasm/run-clang-format).
 
-## CI Integration
+## Building manually
 
-### BitBucket Pipeline
-
-The following Pipeline step will check for any style error in the `src` folder, and return an error if problems are found
-```
-pipelines:
-  default:
-    - step:
-        name: Check code format
-        image: witekio/clang-format-checker
-        script:
-          - run-clang-format.py -r src
-```
+To build manually this image, you can clone this repository, and run `make`. Other supported Makefile targets are:
+- `make build [TAG=latest]`: Build the image, and use the specified tag, or `latest`
+- `make push [TAG=latest]`: Push the image to Docker HUB registry
+- `make run [TAG=latest] [CMD="-r ."]`: Run the image locally after mounting the current folder. `run-clang-format` arguments can be customized with `CMD="<args>"`
 
 ## License
 
