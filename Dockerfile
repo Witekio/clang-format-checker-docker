@@ -1,6 +1,6 @@
-FROM ubuntu:19.04
+FROM ubuntu:20.04
 
-RUN apt update && apt-get install -y --no-install-recommends \
+RUN apt-get update && apt-get install -y --no-install-recommends \
 	clang-format python3 \
         && rm -rf /var/lib/apt/lists/*
 
