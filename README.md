@@ -1,6 +1,6 @@
 # clang-format-checker-docker
 
-Docker image verifying the code format with clang-format
+This Docker image let you verify that your code matches the format from clang-format, in an easy way, as part of your CI pipeline. The clang-format versions supported can be found on the ["Tags" page](https://hub.docker.com/repository/docker/witekio/clang-format-checker/tags?page=1) of the image.
 
 ## Getting Started
 
