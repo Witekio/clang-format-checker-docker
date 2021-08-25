@@ -34,7 +34,9 @@ The following GitLab CI step will check for any style error in the `src` folder,
 
 ```.gitlab-ci.yml
 check-format:
-  image: witekio/clang-format-checker
+  image:
+    name: witekio/clang-format-checker
+    entrypoint: [""]
   script:
     - run-clang-format.py -r src
 ```
